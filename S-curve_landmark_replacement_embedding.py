@@ -12,20 +12,23 @@ X = np.array(X)
 y = [j for i,j in res]
 y = np.array(y)
 
-#-----Construct a geometric graph G------
+#-----Construct a graph G------
 G = nx.Graph()
 m = 100#the permitted number of landmarks
 epsilon = 10**-20
 G.add_nodes_from([(i,{"pos":(X[i,0],X[i,1],X[i,2])}) for i in range(0,m)])#Assign the coordinate for each node.
 pos=nx.get_node_attributes(G,'pos')
+
+#------Euclidean distance between two nodes, where pos[x],pos[y] are the coordinate of x and y, respectively.------------
+def d2(x,y):
+    return np.linalg.norm(np.array(pos[x])-np.array(pos[y]))
+
+#-----Construct the geometric graph G------
 for i in G.nodes:
     for j in G.nodes:
         if i != j and d2(i,j) < epsilon:
             G.add_edge(i,j)
 
-#------Euclidean distance between two nodes, where pos[x],pos[y] are the coordinate of x and y, respectively.-------------------
-def d2(x,y):
-    return np.linalg.norm(np.array(pos[x])-np.array(pos[y]))
 #-----Compute the pairwise distance of any pair of existing nodes in G.------------------
 pairwise_dist = []
 for i in G.nodes:
