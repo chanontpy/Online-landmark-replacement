@@ -7,25 +7,25 @@
 - The code with which `S-curve_landmark_replacement_embedding.py` is directly applicable to other data sets.
 
 ## Online_LandmarkReplacement_Functions.py
-_ Importing and executing the assisting files
-  _ `from Online_LandmarkReplacement_Functions import *`
-  _ `from LandmarkMDS import *`
+- Importing and executing the assisting files
+  - `from Online_LandmarkReplacement_Functions import *`
+  - `from LandmarkMDS import *`
 
-_ Some Variables' description
-  _ `L` is the set of landmarks.
-  _ `m` is the (permitted) number of landmarks.
-  _ `epsilon` is the parameter determining the presence of edges in a geometric graph.
-  _ `sq_distance_mat` is the matrix encoding squared Euclidean distances of pairs of data points.
-  _ `Landmark_eigenpair` contains the eigenpair(eigenvalues and unit eigenvectors) of the double mean-centered `sq_distance_mat`.
-  _ `k` is the embedding dimension, which, in this case, equals to $2$.
-  _ `L_prime` is the matrix $L'_k$ in Landmark MDS.
-  _ `emned_coord` is the list containing the two dimensional embedding coordinates, where line 115 is the Landmark MDS map.
+- Some Variables' description
+  - `L` is the set of landmarks.
+  - `m` is the (permitted) number of landmarks.
+  - `epsilon` is the parameter determining the presence of edges in a geometric graph.
+  - `sq_distance_mat` is the matrix encoding squared Euclidean distances of pairs of data points.
+  - `Landmark_eigenpair` contains the eigenpair(eigenvalues and unit eigenvectors) of the double mean-centered `sq_distance_mat`.
+  - `k` is the embedding dimension, which, in this case, equals to $2$.
+  - `L_prime` is the matrix $L'_k$ in Landmark MDS.
+  - `emned_coord` is the list containing the two dimensional embedding coordinates, where line 115 is the Landmark MDS map.
   
-_ Summary of the code
-  _ Lines 5-13 create S-curve using `sklearn.datasets.make_s_curve` package.
-  _ Lines 15-30 are for constructing a geometric graph.
-  _ The landmark replacement algorithm corresponds to lines 43-79.
-  _ The embedding by Landmark multidimensional scaling corresponds to lines 81-121.
+- Summary of the code
+  - Lines 5-13 create S-curve using `sklearn.datasets.make_s_curve` package.
+  - Lines 15-30 are for constructing a geometric graph.
+  - The landmark replacement algorithm corresponds to lines 43-79.
+  - The embedding by Landmark multidimensional scaling corresponds to lines 81-121.
 
 ## LandmarkMDS.py
 - The code for tie-decay network is under `if __name__ == '__main__'`.
