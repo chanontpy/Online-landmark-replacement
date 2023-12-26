@@ -37,9 +37,43 @@ pairwise_dist.sort(key = lambda x:x[1])#Sort the elements in pairwise_dist by th
 L = set(range(0,m))#Initialized landmarks
 epsilon_growth = [10**-20]#To keep track the epsilon-value once the new data have been admitted.
 
+#-----Landmark replacement algorithm---------------------------------
+adj_list = adjacency_list(G)
+index0 = bisect.bisect_left([x[1] for x in pairwise_dist], epsilon)
+dist = pairwise_dist[index0:]
+for ai in range(m,1000):
+    G.add_nodes_from([(i,{"pos":(X[i,0],X[i,1],X[i,2])}) for i in range(ai,ai+1)])
+    pos=nx.get_node_attributes(G,'pos')
+    adj_list[ai] = []
+    dist_new = []
 
-get_ipython().run_cell_magic('time', '', 'adj_list = adjacency_list(G)\nindex0 = bisect.bisect_left([x[1] for x in pairwise_dist], epsilon)\ndist = pairwise_dist[index0:]\nfor ai in range(m,1000):\n    G.add_nodes_from([(i,{"pos":(X[i,0],X[i,1],X[i,2])}) for i in range(ai,ai+1)])\n    pos=nx.get_node_attributes(G,\'pos\')\n    adj_list[ai] = []\n    dist_new = []\n\n    for i in G.nodes:\n        if i != ai and d2(i,ai) < epsilon:\n            adj_list = update_graph_and_adjacency(G,adj_list,i,ai)\n        elif i != ai and d2(i,ai) >= epsilon:\n            dist_new.append([(i,ai),d2(i,ai)])\n        else:\n            continue\n    dist_new.sort(key = lambda x: x[1])\n    \n    if decide_case(ai,L,d2,G,epsilon) == 1:\n        epsilon_growth.append([epsilon,ai])\n        continue\n    \n    elif len(L) < m:\n        L.add(ai)\n        epsilon_growth.append([epsilon,ai])\n        continue\n    else:\n        Z = landmark_replacement(G,adj_list,L,ai,dist,dist_new,epsilon)\n        L = Z[0]\n        epsilon1 = Z[1]\n        epsilon_growth.append([epsilon1,ai])\n        epsilon = epsilon1\n        adj_list = Z[2]\n        dist_old = Z[3]\n        index = bisect.bisect_left([x[1] for x in dist_old], epsilon)\n        dist = dist_old[index:]')
-
+    for i in G.nodes:
+        if i != ai and d2(i,ai) < epsilon:
+            adj_list = update_graph_and_adjacency(G,adj_list,i,ai)
+        elif i != ai and d2(i,ai) >= epsilon:
+            dist_new.append([(i,ai),d2(i,ai)])
+        else:
+            continue
+    dist_new.sort(key = lambda x: x[1])
+    
+    if decide_case(ai,L,d2,G,epsilon) == 1:
+        epsilon_growth.append([epsilon,ai])
+        continue
+    
+    elif len(L) < m:
+        L.add(ai)
+        epsilon_growth.append([epsilon,ai])
+        continue
+    else:
+        Z = landmark_replacement(G,adj_list,L,ai,dist,dist_new,epsilon)
+        L = Z[0]
+        epsilon1 = Z[1]
+        epsilon_growth.append([epsilon1,ai])
+        epsilon = epsilon1
+        adj_list = Z[2]
+        dist_old = Z[3]
+        index = bisect.bisect_left([x[1] for x in dist_old], epsilon)
+        dist = dist_old[index:]
 
 #-----Landmark Multidimensional scaling begins here.------------------
 sq_distance_mat = np.zeros((len(L),len(L)))
