@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 if __name__ == '__main__':
     pass
 
@@ -185,4 +179,3 @@ def landmark_replacement(G,Adj,L,x,dist,dist_new,epsilon):#G=graph, L=landmarks,
 
     L = L-pi
     return L, epsilon, Adj, dist_all
-
