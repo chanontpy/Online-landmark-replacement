@@ -71,7 +71,7 @@ def OnlyBy(Adj,z,L,n):#Adj=adjacency list,z=the landmark in which we compute,L=l
     if G.degree[z] == 0:
         return {z}
     else:
-        
+    
         if set(Adj[z]).issubset(set(L)):
             return set()
         else:
@@ -108,19 +108,19 @@ def OnlyBy(Adj,z,L,n):#Adj=adjacency list,z=the landmark in which we compute,L=l
 def REMOVE(x,y,Adj,L,n):
     if x in L and y in L:
         if OnlyBy(Adj,x,L,n) == set():
-            return x
+            return {x}
         elif OnlyBy(Adj,y,L,n) == set():
-            return y
+            return {y}
         else:
             return set()
     elif x in L and y not in L:
         if OnlyBy(Adj,x,L,n) == set():
-            return x
+            return {x}
         else:
             return set()
     else:
         if OnlyBy(Adj,y,L,n) == set():
-            return y
+            return {y}
         else:
             return set()
 
@@ -150,11 +150,11 @@ def landmark_replacement(G,Adj,L,x,dist,dist_new,epsilon):#G=graph, L=landmarks,
     n = len(V)#do not forget to update n
 
     if G.degree[x] <= 2*np.sqrt(len(G.edges())):
-        L.append(x)
+        L.add(x)
     else:
         for i in G.neighbors(x):
             if G.degree[i] <= np.sqrt(len(G.edges())):
-                L.append(i)
+                L.add(i)
                 break
             else:
                 continue
@@ -183,5 +183,5 @@ def landmark_replacement(G,Adj,L,x,dist,dist_new,epsilon):#G=graph, L=landmarks,
         n = len(Adj.keys())
         pi = REMOVE(ell,k,Adj,L,n)
 
-    L.remove(pi)
+    L = L-pi
     return L, epsilon, Adj, dist_all
