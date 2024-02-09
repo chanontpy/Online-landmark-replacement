@@ -68,42 +68,36 @@ def OnlyBy(Adj,z,L,n):#Adj=adjacency list,z=the landmark in which we compute,L=l
     if z not in L:
         return("Not a landmark")
     
-    if G.degree[z] == 0:
-        return {z}
+    if set(Adj[z]).issubset(set(L)):
+        return set()
     else:
-    
-        if set(Adj[z]).issubset(set(L)):
-            return set()
-        else:
-            union_neighbor = []
+        union_neighbor = []
         
-            for l in L:
-                if l!=z:
-                    union_neighbor = union_neighbor + Adj[l]
+        for l in L:
+            if l!=z:
+                union_neighbor = union_neighbor + Adj[l]
+            else:
+                continue
+        
+        compare_union = [0]*n
+        compare_z = [0]*n
+        
+        for i in union_neighbor:
+            compare_union[i] = 1
+            
+        for i in Adj[z]:
+            compare_z[i] = 1
+            
+        result = set()
+        for i,j in enumerate(compare_z):
+            if j == 1:
+                if compare_union[i] == 0:
+                    result.add(i)
                 else:
                     continue
-        
-            compare_union = [0]*n
-            compare_z = [0]*n
-        
-            for i in union_neighbor:
-                compare_union[i] = 1
-            
-            for i in Adj[z]:
-                compare_z[i] = 1
-            
-            result = set()
-            for i,j in enumerate(compare_z):
-                if j == 1:
-                    if compare_union[i] == 0:
-                        result.add(i)
-                    else:
-                        continue
-                else:
-                    continue
-        
-        #result = list(result)
-            return result
+            else:
+                continue
+        return result
 
 def REMOVE(x,y,Adj,L,n):
     if x in L and y in L:
