@@ -44,7 +44,7 @@ epsilon_growth = [10**-20]#To keep track the epsilon-value once the new data hav
 adj_list = adjacency_list(G)
 index0 = bisect.bisect_left([x[1] for x in pairwise_dist], epsilon)
 dist = pairwise_dist[index0:]
-for ai in range(100,1000):
+for ai in range(m,1000):
     G.add_nodes_from([(i,{"pos":(X[i,0],X[i,1],X[i,2])}) for i in range(ai,ai+1)])
     pos=nx.get_node_attributes(G,'pos')
     adj_list[ai] = []
@@ -63,8 +63,8 @@ for ai in range(100,1000):
         epsilon_growth.append([epsilon,ai])
         continue
     
-    elif len(set(L)) < m:
-        L.append(ai)
+    elif len(L) < m:
+        L.add(ai)
         epsilon_growth.append([epsilon,ai])
         continue
     else:
