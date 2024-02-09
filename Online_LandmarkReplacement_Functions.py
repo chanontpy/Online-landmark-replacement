@@ -13,12 +13,12 @@ from mpl_toolkits.mplot3d import Axes3D
 from mpl_toolkits import mplot3d
 import bisect
 
-def decide_case_matrix(z,L,G,epsilon,sq_dist_matrix):#The squared distance matrix is precomputed
+def decide_case(z,L,d,G,epsilon):
     if G.degree[z] == 0:
         return 3
     else:
         for l in L:
-            if np.sqrt(sq_dist_matrix[l][z]) < epsilon:
+            if d(l,z) < epsilon:
                 return 1
                 break
         return 2
